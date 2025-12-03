@@ -98,9 +98,7 @@ var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz01234
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<tw-storydata name="song cycle for a horizontal angel" startnode="211" creator="Twine" creator-version="2.8.1" format="SugarCube" format-version="2.36.1" ifid="e096d6d8-b83a-49df-968a-ce424132f0f8" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">
-
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+	<tw-storydata name="song cycle for a horizontal angel" startnode="211" creator="Twine" creator-version="2.8.1" format="SugarCube" format-version="2.36.1" ifid="e096d6d8-b83a-49df-968a-ce424132f0f8" options="" tags="" zoom="0.3" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
 
 /* ----------------------------------------------------
    Global body styling + gradients
@@ -128,7 +126,7 @@ tw-story, tw-passage, #passages {
     text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
     transition: letter-spacing 2s ease, text-shadow 2s ease, color 2s ease;
     position: relative;
-    z-index: 5;
+    z-index: 10; /* Ensure text above all images */
 }
 
 tw-passage:hover {
@@ -173,7 +171,9 @@ a:hover {
     text-decoration: none;
 }
 
-/* Dreamcore floating/glowing effect (continuous) */
+/* ----------------------------------------------------
+   Dreamcore floating/glowing text
+---------------------------------------------------- */
 .dream-passage,
 tw-passage .dream-passage {
     display: inline-block;
@@ -185,7 +185,7 @@ tw-passage .dream-passage {
     color: #f0f0ff;
     text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
     transition: transform 0.3s ease;
-    z-index: 5;
+    z-index: 10; /* above images */
     cursor: default;
     animation: dreamcorePulse 3s ease-in-out infinite alternate;
 }
@@ -263,49 +263,69 @@ tw-passage .dream-passage {
     }
 }
 
-
 /* ----------------------------------------------------
-   Floating images
+   Floating / dream images
 ---------------------------------------------------- */
+.dream-image,
+.story-image,
 .floating-image-wrapper {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 2; /* above background, below text */
+    position: fixed !important;
     pointer-events: none;
-    opacity: 0.65;
-}
-
-.floating-image-wrapper img {
-    max-width: 300px;
-    height: auto;
     mix-blend-mode: screen;
+    opacity: 0.85;
+    z-index: 1; /* always behind text */
+    transition: transform 1.5s ease, opacity 1.5s ease;
 }
 
-.story-image {
-    position: absolute;
-    width: 280px;
-    pointer-events: none;
-    z-index: 2;
-    mix-blend-mode: screen;
-    animation: dreamyBounce 90s ease-in-out infinite alternate;
-    opacity: 0.65;
-}
-
+/* Desktop default */
 .dream-image {
-    position: fixed;
     width: 300px;
     bottom: 90px;
     right: 300px;
-    pointer-events: none;
-    z-index: 2;
-    mix-blend-mode: screen;
-    opacity: 0.8;
+}
+
+.story-image {
+    width: 280px;
+    top: 40vh;
+    left: 20vw;
+    animation: dreamyBounce 90s ease-in-out infinite alternate;
 }
 
 /* ----------------------------------------------------
-   Animations for images
+   Mobile & Tablet fixes
+---------------------------------------------------- */
+@media only screen and (max-width: 768px) {
+    .dream-image {
+        width: 45vw !important;
+        max-width: 55vw !important;
+        bottom: 12vh !important;
+        right: 4vw !important;
+        animation: none !important;
+        transform: none !important;
+        opacity: 1 !important;
+        mix-blend-mode: normal !important;
+    }
+
+    .story-image {
+        width: 45vw !important;
+        max-width: 55vw !important;
+        top: 45vh !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        animation: dreamFloatMobile 40s ease-in-out infinite alternate !important;
+        opacity: 1 !important;
+    }
+}
+
+/* Mobile-specific gentle drift (story-image only) */
+@keyframes dreamFloatMobile {
+    0%   { transform: translate(-50%, 0) scale(1); opacity: 0.95; }
+    50%  { transform: translate(-50%, -3vh) scale(1.02); opacity: 1; }
+    100% { transform: translate(-50%, 0) scale(1); opacity: 0.95; }
+}
+
+/* ----------------------------------------------------
+   Image animations
 ---------------------------------------------------- */
 @keyframes dreamyBounce {
     0%   { transform: translate(0vw, 0vh) scale(1.02); opacity: 0.55; }
@@ -319,61 +339,6 @@ tw-passage .dream-passage {
     80%  { transform: translate(50vw, 4vh) scale(1.04); opacity: 0.55; }
     90%  { transform: translate(14vw, 20vh) scale(1.05); opacity: 0.6; }
     100% { transform: translate(-30vw, -20vh) scale(1.02); opacity: 0.55; }
-}
-
-@keyframes drift {
-    0% { transform: translate(0,0); }
-    50% { transform: translate(20px, -30px); }
-    100% { transform: translate(0,0); }
-}
-
-/* ----------------------------------------------------
-   Image wrapper wobble + pulse
----------------------------------------------------- */
-.imageWrapper {
-    display: inline-block;
-    animation: wrapperWobble 12s ease-in-out infinite alternate,
-               wrapperPulse 15s ease-in-out infinite alternate;
-}
-
-@keyframes wrapperWobble {
-    0%   { transform: translate(0px,0px) rotate(0deg) scale(1); }
-    25%  { transform: translate(2px,-2px) rotate(-1deg) scale(1.01); }
-    50%  { transform: translate(0px,-3px) rotate(1deg) scale(1.02); }
-    75%  { transform: translate(-2px,-1px) rotate(-1deg) scale(1.01); }
-    100% { transform: translate(0px,0px) rotate(0deg) scale(1); }
-}
-
-@keyframes wrapperPulse {
-    0%,100% { opacity: 0.65; filter: blur(1px) brightness(1); }
-    50%     { opacity: 0.8; filter: blur(2px) brightness(1.2); }
-}
-
-/* ----------------------------------------------------
-   Passage glow + heading jitter
----------------------------------------------------- */
-@keyframes passageGlow {
-    0%   { text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff; }
-    25%  { text-shadow: 0 0 4px #99dfff, 0 0 8px #66c0ff; }
-    50%  { text-shadow: 0 0 6px #99dfff, 0 0 12px #66c0ff; }
-    75%  { text-shadow: 0 0 4px #99dfff, 0 0 8px #66c0ff; }
-    100% { text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff; }
-}
-
-tw-passage, .dream-passage {
-    animation: passageGlow 20s ease-in-out infinite alternate;
-}
-
-@keyframes headingJitter {
-    0%,100% { transform: scale(1); }
-    25%     { transform: scale(1.02); }
-    50%     { transform: scale(1.03); }
-    75%     { transform: scale(1.01); }
-}
-
-tw-passage h1, tw-passage h2, tw-passage h3,
-.dream-passage h1, .dream-passage h2, .dream-passage h3 {
-    animation: headingJitter 15s ease-in-out infinite alternate;
 }
 
 /* ----------------------------------------------------
@@ -400,193 +365,6 @@ tw-story {
     overflow: visible !important;
 }
 
-
-/* Dreamcore passage text (continuous pulse + glow) */
-tw-passage .dream-passage,
-.dream-passage {
-    display: inline-block;
-    position: relative;
-    text-align: center;
-    padding: 2em 1em;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 3px;
-    color: #f0f0ff;
-    text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
-    z-index: 5;
-    cursor: default;
-    animation: dreamcorePulse 3s ease-in-out infinite alternate !important;
-}
-
-/* ----------------------------------------------------
-   Dreamcore floating/glowing effect (continuous) for SugarCube
----------------------------------------------------- */
-#passages .dream-passage {
-    display: inline-block;
-    position: relative;
-    text-align: center;
-    padding: 2em 1em;
-    letter-spacing: 3px;
-    font-family: 'Orbitron', sans-serif;
-    color: #f0f0ff;
-    text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
-    transition: transform 0.3s ease;
-    z-index: 5;
-    cursor: default;
-    animation: dreamcorePulse 3s ease-in-out infinite alternate !important;
-}
-
-/* Pulse + glow keyframes */
-@keyframes dreamcorePulse {
-    0% {
-        transform: scale(1);
-        text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
-        color: #f0f0ff;
-    }
-    25% {
-        transform: scale(1.02);
-        text-shadow: 0 0 6px #99dfff, 0 0 12px #66c0ff;
-        color: #ffffff;
-    }
-    50% {
-        transform: scale(1.04);
-        text-shadow: 0 0 12px #99dfff, 0 0 24px #66c0ff, 0 0 36px #33c0ff;
-        color: #ffffff;
-    }
-    75% {
-        transform: scale(1.02);
-        text-shadow: 0 0 6px #99dfff, 0 0 12px #66c0ff;
-        color: #ffffff;
-    }
-    100% {
-        transform: scale(1);
-        text-shadow: 0 0 2px #99dfff, 0 0 4px #66c0ff;
-        color: #f0f0ff;
-    }
-}
-
-/* Dreamcore headings pulse + glow */
-#passages .dream-passage h1,
-#passages .dream-passage h2,
-#passages .dream-passage h3,
-#passages .dream-passage h4,
-#passages .dream-passage h5,
-#passages .dream-passage h6 {
-    display: inline-block;
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 3px;
-    color: #b8f0ff;
-    text-shadow: 0 0 3px #b8f0ff, 0 0 6px #99e0ff;
-    animation: dreamcoreHeadingPulse 3s ease-in-out infinite alternate !important;
-}
-
-/* Keyframes for heading pulse */
-@keyframes dreamcoreHeadingPulse {
-    0% {
-        transform: scale(1);
-        text-shadow: 0 0 3px #b8f0ff, 0 0 6px #99e0ff;
-        color: #b8f0ff;
-    }
-    25% {
-        transform: scale(1.02);
-        text-shadow: 0 0 6px #b8f0ff, 0 0 12px #99e0ff;
-        color: #ffffff;
-    }
-    50% {
-        transform: scale(1.04);
-        text-shadow: 0 0 12px #b8f0ff, 0 0 24px #99e0ff, 0 0 36px #66dfff;
-        color: #ffffff;
-    }
-    75% {
-        transform: scale(1.02);
-        text-shadow: 0 0 6px #b8f0ff, 0 0 12px #99e0ff;
-        color: #ffffff;
-    }
-    100% {
-        transform: scale(1);
-        text-shadow: 0 0 3px #b8f0ff, 0 0 6px #99e0ff;
-        color: #b8f0ff;
-    }
-}
-
-/* ----------------------------------------------------
-   RESPONSIVE DREAMCORE IMAGE SYSTEM (Corrected)
----------------------------------------------------- */
-
-/* Base size + behavior */
-.dream-image,
-.story-image {
-    position: fixed;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0.75;
-    z-index: 2;
-    transition: transform 1.5s ease, opacity 1.5s ease;
-}
-
-/* Desktop default */
-.dream-image {
-    width: 300px;
-    bottom: 90px;
-    right: 300px;
-
-    /* REMOVE MOVEMENT ON DESKTOP TOO */
-    animation: none !important;
-    transform: none !important;
-
-    /* BRIGHT & NORMAL BLEND */
-    opacity: 1 !important;
-    mix-blend-mode: normal !important;
-}
-
-.story-image {
-    width: 280px;
-    top: 40vh;
-    left: 20vw;
-    animation: dreamyBounce 90s ease-in-out infinite alternate;
-}
-
-/* ----------------------------------------------------
-   MOBILE & TABLET FIXES — dream-image STATIC ONLY
----------------------------------------------------- */
-@media only screen and (max-width: 768px) {
-
-    /* DREAM-IMAGE: static + bright */
-    .dream-image {
-        width: 45vw !important;
-        max-width: 55vw !important;
-
-        /* restore full brightness */
-        opacity: 1 !important;
-        mix-blend-mode: normal !important;
-
-        bottom: 12vh !important;
-        right: 4vw !important;
-
-        /* no movement anywhere */
-        animation: none !important;
-        transform: none !important;
-    }
-
-    /* STORY-IMAGE: still floating */
-    .story-image {
-        width: 45vw !important;
-        max-width: 55vw !important;
-        opacity: 1 !important;
-
-        top: 45vh !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-
-        animation: dreamFloatMobile 40s ease-in-out infinite alternate !important;
-    }
-}
-
-/* Mobile-specific gentle drift (story-image only) */
-@keyframes dreamFloatMobile {
-    0%   { transform: translate(-50%, 0) scale(1); opacity: 0.95; }
-    50%  { transform: translate(-50%, -3vh) scale(1.02); opacity: 1; }
-    100% { transform: translate(-50%, 0) scale(1); opacity: 0.95; }
-}
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Ensure gradient step variable exists
 if (State.variables.gradientStep === undefined) State.variables.gradientStep = 0;
 
