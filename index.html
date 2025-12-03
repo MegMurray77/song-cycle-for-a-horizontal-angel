@@ -357,27 +357,30 @@ tw-passage .dream-passage {
     pointer-events: none;
 }
 
-/* ----------------------------------------------------
-   Story container ensures floating images move freely
----------------------------------------------------- */
-tw-story {
-    position: relative;
-    overflow: visible !important;
-}
+/* MOBILE FIXES — iOS-friendly */
 @media only screen and (max-width: 768px) {
 
-    /* Text container always on top */
-    #passages, tw-passage {
+    /* TEXT ALWAYS ABOVE IMAGES */
+    #passages,
+    tw-passage {
         position: relative !important;
-        z-index: 10 !important;
+        z-index: 999 !important; 
     }
 
-    /* Make all images absolute instead of fixed */
+    /* DREAM + STORY + FLOATING IMAGES ALWAYS BEHIND TEXT */
     .dream-image,
     .story-image,
     .floating-image-wrapper {
-        position: absolute !important;
-        z-index: 1 !important; /* behind text */
+        position: absolute !important;  /* instead of fixed on mobile */
+        z-index: 1 !important;
+        pointer-events: none !important; /* prevents overlay blocking */
+        will-change: transform !important; /* makes movement smooth */
+    }
+
+    /* SPECIAL FIX FOR DREAM MOVING IMAGES (animation stops otherwise) */
+    .dream-image {
+        transform: translate3d(0, 0, 0) !important; /* forces GPU rendering */
+        backface-visibility: hidden !important;
     }
 }
 
