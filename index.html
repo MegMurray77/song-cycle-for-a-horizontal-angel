@@ -364,6 +364,22 @@ tw-story {
     position: relative;
     overflow: visible !important;
 }
+@media only screen and (max-width: 768px) {
+
+    /* Text container always on top */
+    #passages, tw-passage {
+        position: relative !important;
+        z-index: 10 !important;
+    }
+
+    /* Make all images absolute instead of fixed */
+    .dream-image,
+    .story-image,
+    .floating-image-wrapper {
+        position: absolute !important;
+        z-index: 1 !important; /* behind text */
+    }
+}
 
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Ensure gradient step variable exists
 if (State.variables.gradientStep === undefined) State.variables.gradientStep = 0;
@@ -1187,8 +1203,7 @@ The god of love
      
      &lt;&lt;include &quot;TemplateCounters&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="64" name="We killed with our own hands" tags="" position="1250,4450" size="100,100">… there is an instinctive tendency towards divine intoxication which the rational world of calculation cannot bear.  This tendency is the opposite of Good.  … in children preference for the present moment is the common [[definition of Evil]].  
 
--Bataille
-
+-Bataille on Emily Bronte 
 
 
          &lt;!-- Floating image --&gt;
@@ -1196,11 +1211,11 @@ The god of love
      alt=&quot;Floating Image&quot; 
      class=&quot;story-image&quot;&gt;
      
-     &lt;&lt;include &quot;TemplateCounters&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="definition of Evil" tags="" position="1350,4575" size="100,100">Hatred of Beuys opens a door for Young British Artists, a movement of cynicism that collapses with the market
+     &lt;&lt;include &quot;TemplateCounters&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="65" name="definition of Evil" tags="" position="1350,4575" size="100,100">Hatred of Beuys (??) opens a door for Young British Artists, a movement of cynicism that collapses with the market
 
 Me too movement reconfigures the social codes 
 
-Assad Bayad :: non-movements and the power of the ordinary 
+Asef Bayat :: non-movements and the power of the ordinary 
 
 Affect and aggression intersect in western culture 
 
@@ -2867,7 +2882,7 @@ la la la last christmas i gave you my heart ^^
      alt=&quot;Floating Image&quot; 
      class=&quot;dream-image&quot;&gt;
      
-     &lt;&lt;include &quot;TemplateCounters&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="210" name="opens itself up to you" tags="" position="2750,475" size="100,100">Es ist zu früh für Prophezeiungen.  Du bist kein Prophet.  Du bist ein [[Angel]].  
+     &lt;&lt;include &quot;TemplateCounters&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="210" name="opens itself up to you" tags="" position="2750,475" size="100,100">Es ist zu früh für Prophezeiungen.  Du bist kein Prophet.  Du bist [[Angel]].  
 
 &lt;!-- Floating image --&gt;
 &lt;img src=&quot;https://i.imgur.com/UfcwGLL.png&quot; 
