@@ -357,33 +357,26 @@ tw-passage .dream-passage {
     pointer-events: none;
 }
 
-/* MOBILE FIXES — iOS-friendly */
+/* MOBILE FIX — restore fixed movement + force text layer on top */
 @media only screen and (max-width: 768px) {
 
-    /* TEXT ALWAYS ABOVE IMAGES */
+    /* This forces the passage text to always be ABOVE fixed images */
     #passages,
     tw-passage {
         position: relative !important;
-        z-index: 999 !important; 
+        z-index: 9999 !important; /* higher than ANY image */
+        pointer-events: auto !important;
     }
 
-    /* DREAM + STORY + FLOATING IMAGES ALWAYS BEHIND TEXT */
+    /* Keep images fixed so animations/movement still work */
     .dream-image,
     .story-image,
     .floating-image-wrapper {
-        position: absolute !important;  /* instead of fixed on mobile */
-        z-index: 1 !important;
-        pointer-events: none !important; /* prevents overlay blocking */
-        will-change: transform !important; /* makes movement smooth */
-    }
-
-    /* SPECIAL FIX FOR DREAM MOVING IMAGES (animation stops otherwise) */
-    .dream-image {
-        transform: translate3d(0, 0, 0) !important; /* forces GPU rendering */
-        backface-visibility: hidden !important;
+        position: fixed !important;   /* RESTORED */
+        z-index: 1 !important;         /* LOWER than text */
+        pointer-events: none !important;
     }
 }
-
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Ensure gradient step variable exists
 if (State.variables.gradientStep === undefined) State.variables.gradientStep = 0;
 
